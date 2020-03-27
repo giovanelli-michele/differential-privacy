@@ -1,5 +1,36 @@
 # Differential Privacy
 
+## Michele Giovanelli's Thesis
+
+### Java DP-functions
+In the [java folder](https://github.com/giovanelli-michele/differential-privacy/tree/master/differential_privacy/java) I added a JNI Java class that calls the native C++ functions implemented by Google.
+
+In particular, in the Java class I implemented COUNT, SUM, MEAN, VARIANCE, STANDARD DEVIATION and NTILE functions, based on Google's Algorithms and corresponding to the POSTGRES functions developed in the library.
+
+I also wrote a main method in the Java class that calls these methods on random data.
+
+It's possible to run it by compiling the full library from the main directory
+```shell
+bazel build differential-privacy/...
+``` 
+and than running the Java Main class
+```shell
+bazel run differential-privacy/java:DiffPrivacy
+```
+
+### Example of Differential Privacy using JNI 
+In the [example folder](https://github.com/giovanelli-michele/differential-privacy/tree/master/differential_privacy/example) I added a JNI Java class that calls the native functions of the C++ library in order to show the same example proposed by the Google team.
+
+It's possible to run the example by compiling the full library from the main directory
+```shell
+bazel build differential-privacy/...
+``` 
+and than running the Java Main class
+```shell
+bazel run differential-privacy/example:Main
+```
+
+## Google's Differential Privacy
 This project contains a C++ library of ε-differentially private algorithms,
 which can be used to produce aggregate statistics over numeric data sets
 containing private or sensitive information. In addition, we provide a
@@ -26,41 +57,21 @@ property no longer hold.
 
 ## How to Build
 
-In order to run the differential private library, you need to install Bazel,
-if you don't have it already. [Follow the instructions for your platform on the
-Bazel website](https://docs.bazel.build/versions/master/install.html)
-
-You also need to install Git, if you don't have it already.
-[Follow the instructions for your platform on the Git website.](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-
-Once you've installed Bazel and Git, open a Terminal and clone the
-differential privacy directory into a local folder:
-
-```git clone https://github.com/google/differential-privacy.git```
-
-Navigate into the ```differential-privacy``` folder you just created,
-and build the differential privacy library and dependencies using Bazel:
+This project uses [bazel](https://bazel.build) for building and dependency
+resolution. Install bazel and run the following:
 
 ```bazel build differential_privacy/...```
 
-You may need to install additional dependencies when building the PostgreSQL
-extension, for example on Ubuntu you will need these packages:
+## Examples
 
-```sudo apt-get install libreadline-dev bison flex```
-
-## How to Use
-
-Full documentation on how to use the library is in the
-[cpp/docs](https://github.com/google/differential-privacy/tree/master/differential_privacy/docs)
-subdirectory. Here's a minimal example showing how to compute the count of some
-data:
+Here's a minimal example showing how to compute the count of some data:
 
 ```
 #include "differential_privacy/algorithms/count.h"
 
 // Epsilon is a configurable parameter. A lower value means more privacy but
 // less accuracy.
-int64_t count(const vector<double>& values, double epsilon) {
+int64_t count(const vector<double>& vals, double epsilon) {
   // Construct the Count object to run on double inputs.
   std::unique_pointer<differential_privacy::Count<double>> count =
      differential_privacy::Count<double>::Builder().SetEpsilon(epsilon)
@@ -68,8 +79,7 @@ int64_t count(const vector<double>& values, double epsilon) {
                                                    .ValueOrDie();
 
   // Compute the count and get the result.
-  differential_privacy::Output result =
-     count->Result(values.begin(), values.end());
+  differential_privacy::Output result = count->Result(v.begin(), v.end());
 
   // GetValue can be used to extract the value from an Output protobuf. For
   // count, this is always an int64_t value.

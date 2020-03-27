@@ -12,13 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-""" Additional bazel imports for differential privacy library """
+# The files in this directory implement a postgres extension adding
+# anonymous aggregate functions.
 
-exports_files([
-    "differential_privacy_deps.bzl",
-])
+licenses(["notice"])  # Apache v2.0
+
+package(
+    default_visibility = ["//visibility:private"],
+)
 
 cc_binary(
     name = "libdp-func.so",
@@ -37,17 +39,34 @@ cc_binary(
     ],
 )
 
+cc_binary(
+    name = "libdp-func.dll",
+    copts = ["-Wno-sign-compare"],
+    linkshared = 1,
+    linkstatic = 1,
+    deps = [
+        ":dp_func",
+        "//differential_privacy/algorithms:bounded-mean",
+        "//differential_privacy/algorithms:bounded-standard-deviation",
+        "//differential_privacy/algorithms:bounded-sum",
+        "//differential_privacy/algorithms:bounded-variance",
+        "//differential_privacy/algorithms:count",
+        "//differential_privacy/algorithms:order-statistics",
+        "//differential_privacy/algorithms:util",
+    ],
+)
+
 cc_library(
     name = "dp_func",
     srcs = [
-        "//differential_privacy/spark:Wdp_func.cc",
-        "//differential_privacy/spark:dp_func.cc",
+        "Wdp_func.cc",
+        "dp_func.cc",
     ],
     hdrs = [
-        "//differential_privacy/spark:Wdp_func.h",
-        "//differential_privacy/spark:dp_func.h",
-        "//differential_privacy/spark:jni.h",
-        "//differential_privacy/spark:jni_md.h",
+        "Wdp_func.h",
+        "dp_func.h",
+        "jni.h",
+        "jni_md.h",
     ],
     copts = ["-Wno-sign-compare"],
     deps = [
@@ -65,15 +84,10 @@ cc_library(
 java_binary(
     name = "DiffPrivacy",
     srcs = [
-        "//differential_privacy/spark:DiffPrivacyCount.java",
-        "//differential_privacy/spark:InvalidInputValuesException.java",
+        "Dp_func.java",
     ],
-    main_class = "DiffPrivacyCount",
+    main_class = "Dp_func",
     resources = [":libdp-func.so"],
     runtime_deps = [":libdp-func.so"],
-    deps = [
-        ":libdp-func.so",
-        "@maven//:org_apache_spark_spark_catalyst_2_12",
-        "@maven//:org_apache_spark_spark_sql_2_12",
-    ],
+    deps = [":libdp-func.so"],
 )
