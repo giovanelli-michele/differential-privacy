@@ -27,7 +27,7 @@ bazel build differential-privacy/...
 ``` 
 and than running the Java Main class
 ```shell
-bazel run differential-privacy/example:Main
+bazel run differential-privacy/example:ExampleJava
 ```
 
 # Differential Privacy
