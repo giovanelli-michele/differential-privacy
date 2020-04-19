@@ -18,45 +18,36 @@
 
 licenses(["notice"])  # Apache v2.0
 
+package(default_visibility = ["//visibility:public"])
+
+genrule(
+    name = "copy_link_jni_md_header",
+    srcs = ["@bazel_tools//tools/jdk:jni_md_header-linux"],
+    outs = ["jni_md.h"],
+    cmd = "cp -f $< $@",
+)
+
+genrule(
+    name = "copy_link_jni_header",
+    srcs = ["@bazel_tools//tools/jdk:jni_header"],
+    outs = ["jni.h"],
+    cmd = "cp -f $< $@",
+)
+
 cc_library(
-    name = "main-jni-lib",
-    srcs = [
-        "Main.cc",
-        "animals_and_carrots.cc",
-        "@bazel_tools//tools/jdk:jni_header",
-        "@bazel_tools//tools/jdk:jni_md_header-linux",
-    ],
+    name = "copy_jni_hdr_lib",
     hdrs = [
-        "Main.h",
-        "animals_and_carrots.h",
-        "jni.h",
-        "jni_md.h",
-        "@bazel_tools//tools/jdk:jni_md_header-linux",
+        ":copy_link_jni_header",
+        ":copy_link_jni_md_header",
     ],
-    copts = ["-Wno-sign-compare"],
-    data = ["animals_and_carrots.csv"],
-    includes = [
-        "external/bazel_tools/tools/jdk/include",
-        "external/bazel_tools/tools/jdk/include/linux",
-    ],
-    deps = [
-        "//differential_privacy/algorithms:bounded-mean",
-        "//differential_privacy/algorithms:bounded-sum",
-        "//differential_privacy/algorithms:count",
-        "//differential_privacy/algorithms:order-statistics",
-        "//differential_privacy/base:statusor",
-        "//differential_privacy/proto:data_cc_proto",
-        "@com_google_absl//absl/strings",
-    ],
-    alwayslink = True,
+    includes = ["."],
 )
 
 cc_binary(
-    name = "libmain-jni.so",
+    name = "report_the_carrots",
     srcs = ["report_the_carrots.cc"],
-    linkshared = True,
     deps = [
-        ":main-jni-lib",
+        ":animals_and_carrots",
         "//differential_privacy/algorithms:confidence_interval_cc_proto",
         "//differential_privacy/algorithms:util",
         "//differential_privacy/proto:data_cc_proto",
@@ -66,27 +57,58 @@ cc_binary(
     ],
 )
 
-#cc_test(
-#    name = "animals_and_carrots_test",
-#    srcs = ["animals_and_carrots_test.cc"],
-#    copts = ["-Wno-sign-compare"],
-#    deps = [
-#        ":example-jni-lib",
-#        "//differential_privacy/base:status",
-#        "//differential_privacy/base/testing:status_matchers",
-#        "@com_google_googletest//:gtest_main",
-#    ],
-#)
+cc_library(
+    name = "animals_and_carrots",
+    srcs = [
+        "ExampleJava.cc",
+        "animals_and_carrots.cc",
+    ],
+    hdrs = [
+        "ExampleJava.h",
+        "animals_and_carrots.h",
+    ],
+    copts = ["-Wno-sign-compare"],
+    data = ["animals_and_carrots.csv"],
+    deps = [
+        ":copy_jni_hdr_lib",
+        "//differential_privacy/algorithms:bounded-mean",
+        "//differential_privacy/algorithms:bounded-sum",
+        "//differential_privacy/algorithms:count",
+        "//differential_privacy/algorithms:order-statistics",
+        "//differential_privacy/base:statusor",
+        "//differential_privacy/proto:data_cc_pr    oto",
+        "@com_google_absl//absl/strings",
+    ],
+    alwayslink = True,
+)
+
+cc_test(
+    name = "animals_and_carrots_test",
+    srcs = ["animals_and_carrots_test.cc"],
+    copts = ["-Wno-sign-compare"],
+    deps = [
+        ":animals_and_carrots",
+        "//differential_privacy/base:status",
+        "//differential_privacy/base/testing:status_matchers",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_binary(
+    name = "libexample.so",
+    copts = ["-Wno-sign-compare"],
+    linkshared = 1,
+    linkstatic = 1,
+    deps = [
+        ":animals_and_carrots",
+    ],
+)
 
 java_binary(
-    name = "Main",
+    name = "ExampleJava",
     srcs = [
-        "Main.java",
+        "ExampleJava.java",
     ],
-    data = [
-        ":libmain-jni.so",
-    ],
-    jvm_flags = ["-Djava.library.path=./differential_privacy/example"],
-    main_class = "Main",
-    deps = [":libmain-jni.so"],
+    main_class = "ExampleJava",
+    deps = [":libexample.so"],
 )
