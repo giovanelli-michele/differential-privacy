@@ -62,6 +62,5 @@ java_binary(
     ],
     main_class = "DpFunc",
     resources = [":libdpjava.so"],
-    runtime_deps = [":libdpjava.so"],
     deps = [":libdpjava.so"],
 )
