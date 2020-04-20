@@ -69,6 +69,8 @@ cc_library(
     srcs = ["dp_func.cc"],
     hdrs = ["dp_func.h"],
     copts = ["-Wno-sign-compare"],
+    includes = ["."],
+    visibility = ["//differential_privacy/javaWrap:__pkg__"],
     deps = [
         "//differential_privacy/algorithms:algorithm",
         "//differential_privacy/algorithms:bounded-mean",

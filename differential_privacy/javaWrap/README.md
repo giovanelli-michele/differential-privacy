@@ -1,51 +1,27 @@
-# Java Differential Privacy
-Here's an example of execution of the main method of the Java Dp_func class with one Double array and, when possible, one Double array.
+# Java Differential Privacy Wrapping
+Here's an example of execution of the main method of the Java DpFunc class with one double random array with 10.000 elements.
 
-```shell
+```shell script
 ***********************************************
-Loaded dp-func library
+Loaded dpjava library
 ***********************************************
 
-True count: 10000
-DP count with default epsilon: 9999
-DP count with custom epsilon (0.1): 9984
+True Count: 10000
+DpCount with custom epsilon 0.1: 9984
 
-True Integer sum: 494768
-DP Integer sum with default epsilon and auto bounds: 494592
-DP Integer sum with custom epsilon and auto bounds: 479232
-DP Integer sum with custom epsilon and custom bounds: 494592
-DP Integer sum with default epsilon and custom bounds: 494592
+True Sum: 4994.074093122075
+DpSum with default epsilon: 5002.0
 
-True Double sum: 4978.630400466516
-DP Double sum with default epsilon and auto bounds: 4978.0
-DP Double sum with custom epsilon and auto bounds: 4928.0
-DP Double sum with custom epsilon and custom bounds: 4096.0
-DP Double sum with default epsilon and custom bounds: 4992.0
+True Mean: 0.4994074093122075
+DpMean with bounds [0, 1]: 0.4917111280487805
 
-True mean: 0.4978630400466516
-DP mean with default epsilon and auto bounds: 0.49030080782312924
-DP mean with custom epsilon and auto bounds: 0.498991935483871
-DP mean with custom epsilon and custom bounds: 0.4615384615384599
-DP mean with default epsilon and custom bounds: 0.4896000000000029
+True Variance: 0.08249751049405228
+DpVariance with custom epsilon 5: 0.09055434875463364
 
-True var: 0.08384280884554482
-DP var with default epsilon and auto bounds: 0.09176151106781497
-DP var with custom epsilon and auto bounds: 0.079420431665023
-DP var with custom epsilon and custom bounds: 0.08111693328039482
-DP var with default epsilon and custom bounds: 0.08372949019543788
+True Standard Deviation: 0.2872237986206092
+Dp Standard Deviation with custom epsilon 0.1 and bounds [0, 1]: 0.2959214007724162
 
-True std: 0.28955622743354154
-DP std with default epsilon and auto bounds: 0.30265222148553456
-DP std with custom epsilon and auto bounds: 0.2904100656848074
-DP std with custom epsilon and custom bounds: 0.28306925853614895
-DP std with default epsilon and custom bounds: 0.28936304026592374
-
-DP int Ntile with default epsilon: 90
-DP int Ntile with custom epsilon: 89
-
-DP double Ntile with default epsilom: 0.898782428782741
-DP double Ntile with custom epsilon: 0.8948836624894347
-
+Dp Ntile with 0.95 percentile and bounds [0, 1]: 0.950840402605854
 ```
 
 ## COUNT
@@ -163,14 +139,14 @@ double DiffPrivacySum(double[] doubleArray, double lower, double upper);
 ```
 
 ## MEAN
-In order to perform the Differential Privacy MEAN algorithm, I wrote four overloaded methods in the Java class, as for the DpSUM algorithm (but only with double return type).
+In order to perform the Differential Privacy MEAN algorithm, I wrote eight overloaded methods in the Java class, as for the DpSUM algorithm (but only with double return type).
 
 ## VARIANCE
-In order to perform the Differential Privacy VARIANCE algorithm, I wrote four overloaded methods in the Java class, as for the DpMean algorithm.
+In order to perform the Differential Privacy VARIANCE algorithm, I wrote eight overloaded methods in the Java class, as for the DpMean algorithm.
 
 ## STANDARD DEVIATION
-In order to perform the Differential Privacy STANDARD DEVIATION algorithm, I wrote four overloaded methods in the Java class, as for the DpMean algorithm.
+In order to perform the Differential Privacy STANDARD DEVIATION algorithm, I wrote eight overloaded methods in the Java class, as for the DpMean algorithm.
 
 ## NTILE
-In order to perform the Differential Privacy STANDARD DEVIATION algorithm, I wrote four overloaded methods.
+In order to perform the Differential Privacy NTILE algorithm, I wrote four overloaded methods.
 In particular, it has been necessary to implement these methods with user-defined bounds, as the algorithm performs poorly without bounds (from Google's documentation).

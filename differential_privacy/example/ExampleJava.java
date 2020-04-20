@@ -3,7 +3,7 @@ public class ExampleJava {
         System.loadLibrary("example");
 
         System.out.println("\n***********************************************");
-        System.out.println("Loaded main-jni library");
+        System.out.println("Loaded example library");
         System.out.println("***********************************************\n");
     }
 

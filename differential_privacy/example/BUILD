@@ -76,7 +76,7 @@ cc_library(
         "//differential_privacy/algorithms:count",
         "//differential_privacy/algorithms:order-statistics",
         "//differential_privacy/base:statusor",
-        "//differential_privacy/proto:data_cc_pr    oto",
+        "//differential_privacy/proto:data_cc_proto",
         "@com_google_absl//absl/strings",
     ],
     alwayslink = True,
