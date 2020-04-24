@@ -70,7 +70,10 @@ cc_library(
     hdrs = ["dp_func.h"],
     copts = ["-Wno-sign-compare"],
     includes = ["."],
-    visibility = ["//differential_privacy/javaWrap:__pkg__"],
+    visibility = [
+        "//differential_privacy/javaWrap:__pkg__",
+        "//differential_privacy/spark:__pkg__",
+    ],
     deps = [
         "//differential_privacy/algorithms:algorithm",
         "//differential_privacy/algorithms:bounded-mean",

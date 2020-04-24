@@ -2,8 +2,15 @@
 
 ## Michele Giovanelli's Thesis
 
+### Apache Spark Differential Privacy extension
+In the [spark folder](https://github.com/giovanelli-michele/differential-privacy/tree/master/differential_privacy/spark) I added some Java classes that can be used inside the Apache Spark environment in order to use the Differential Privacy library.
+
+In particular I implemented COUNT and SUM functions, based on Google's Algorithms and corresponding to the POSTGRES functions developed in the library.
+
+More information in the relative folder.
+
 ### Java DP-functions
-In the [java folder](https://github.com/giovanelli-michele/differential-privacy/tree/master/differential_privacy/java) I added a JNI Java class that calls the native C++ functions implemented by Google.
+In the [javaWrap folder](https://github.com/giovanelli-michele/differential-privacy/tree/master/differential_privacy/javaWrap) I added a JNI Java class that calls the native C++ functions implemented by Google.
 
 In particular, in the Java class I implemented COUNT, SUM, MEAN, VARIANCE, STANDARD DEVIATION and NTILE functions, based on Google's Algorithms and corresponding to the POSTGRES functions developed in the library.
 
