@@ -134,8 +134,6 @@ public class DpCount extends UserDefinedAggregateFunction {
             element = input.getDouble(0);
         } catch (ClassCastException e) {
             element = Math.random();
-        } catch (NullPointerException e) {
-            element = Math.random();
         }
 
         done = this.insertElement(element);
