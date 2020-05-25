@@ -1,7 +1,7 @@
 # Using Differential Privacy in Apache Spark
 In this Bazel *package* I created some Java classes that extend an Apache Spark User Defined Aggregate Function (UDAF) in order to use  the Differential Privacy algorithms inside Spark environment with RDDs.
 
-At the moment, there are two different classes available: DpCount and DpSum, which handle *differentially private* Count and Sum algorithms respectively.
+At the moment, there are three different classes available: DpCount, DpSum and DpMean, which handle *differentially private* Count, Sum and Mean algorithms respectively.
 
 In order to use these classes, you need to build the package with:
 

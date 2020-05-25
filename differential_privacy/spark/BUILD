@@ -25,10 +25,12 @@ cc_library(
     name = "differentialPrivacy",
     srcs = [
         "DpCount.cc",
+        "DpMean.cc",
         "DpSum.cc",
     ],
     hdrs = [
         "DpCount.h",
+        "DpMean.h",
         "DpSum.h",
     ],
     copts = ["-Wno-sign-compare"],
@@ -61,6 +63,7 @@ java_binary(
     name = "DpSpark",
     srcs = [
         "DpCount.java",
+        "DpMean.java",
         "DpSum.java",
         "InvalidInputValuesException.java",
     ],

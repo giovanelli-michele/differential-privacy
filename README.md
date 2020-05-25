@@ -5,7 +5,7 @@
 ### Apache Spark Differential Privacy extension
 In the [spark folder](https://github.com/giovanelli-michele/differential-privacy/tree/master/differential_privacy/spark) I added some Java classes that can be used inside the Apache Spark environment in order to use the Differential Privacy library.
 
-In particular I implemented COUNT and SUM functions, based on Google's Algorithms and corresponding to the POSTGRES functions developed in the library.
+In particular I implemented COUNT, SUM and MEAN functions, based on Google's Algorithms and corresponding to the POSTGRES functions developed in the library.
 
 More information in the relative folder.
 
