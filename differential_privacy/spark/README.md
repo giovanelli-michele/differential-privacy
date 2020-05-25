@@ -23,7 +23,7 @@ $SPARK_HOME/bin/spark-shell --jars dp_jar/DpSpark_deploy.jar
 
 In order to use the Java classes, you must generate an instance of the class you need, then you have to register a spark UDAF using the class instance. Finally you can use the UDAF over a Spark RDD.
 
-Here's an example with DpCount class:
+Here's an example with DpSum class:
 
 ```scala worksheet
 var dps = new DpSum(5, 0, 100);
